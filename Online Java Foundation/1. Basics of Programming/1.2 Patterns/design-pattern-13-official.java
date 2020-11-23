@@ -6,14 +6,13 @@ public class Main {
         Scanner scn = new Scanner(System.in);
 
         int n = scn.nextInt();
-        int m = 0, l = 1;
+        int coeff = 1;
         
         for(int i = 0; i<n; i++){
             for(int j = 0; j<=i; j++){
-                int temp = l+m;
-                System.out.print(m +"	");
-                m = l;
-                l = temp;
+                coeff = (j==0||i==0)?1:coeff*(i-j+1)/j;
+                System.out.print(coeff +"	");
+                
             }
             System.out.println();
         }
