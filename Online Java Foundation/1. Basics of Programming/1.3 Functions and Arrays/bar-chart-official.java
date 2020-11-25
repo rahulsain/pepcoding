@@ -14,10 +14,10 @@ public class Main {
                 max = a[i];
             }
         }
-        for (int j = max-1; j >= 0; j--) {
+        for (int j = max; j > 0; j--) {
 
             for (int i = 0; i < n; i++) {
-                if (a[i] > j) {
+                if (a[i] >= j) {
                     System.out.print("*\t");
                 }
                 else{
