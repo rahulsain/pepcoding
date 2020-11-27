@@ -36,10 +36,10 @@ public class Main {
             } else if (rcur < 0) {
                 rcur++;
                 break;
-            } else if (ccur > cmax) {
+            } else if (ccur > m-1) {
                 ccur--;
                 break;
-            } else if (rcur > rmax) {
+            } else if (rcur > n-1) {
                 rcur--;
                 break;
             }
