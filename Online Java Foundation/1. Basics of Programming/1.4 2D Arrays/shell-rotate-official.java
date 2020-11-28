@@ -3,116 +3,130 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+   public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
-
         int n = sc.nextInt();
-        int[][] a = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                a[i][j] = sc.nextInt();
+        int m = sc.nextInt();
+        int arr[][] = new int[n][m];
+        
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < m; j++) {
+                arr[i][j] = sc.nextInt();
             }
         }
-        int s = sc.nextInt();
-        int r = sc.nextInt();
-        shellRotate(a, s, r);
-        display(a);
-    }
+         int s = sc.nextInt();
+         int r = sc.nextInt();
+         
+         rotateShell(arr, s, r);
+         display(arr);
+   }
 
-    public static void shellRotate(int[][] a, int s, int r) {
-        int[] oned = shellToOneD(a, s);
-        rotate(oned, r);
-        oneDToShell(a, s, oned);
-    }
+   public static void rotateShell(int[][] arr, int s, int r) {
+      int[] oneD = fillOneD(arr, s);
+      rotate(oneD, r);
+      fill2d(arr, oneD, s);
+   }
 
-    public static int[] shellToOneD(int[][] a, int s) {
-        int cmin = s - 1;
-        int rmin = s - 1;
-        int cmax = a[0].length - 1;
-        int rmax = a.length - 1;
-        int size = 2 * (cmax - cmin + rmax - rmin);
-        int oned[] = new int[size];
+   public static int[] fillOneD(int[][] arr, int s) {
+      int minr = s - 1;
+      int minc = s - 1;
+      int maxr = arr.length - s;
+      int maxc = arr[0].length - s;
+      // calculate size of new oneD array (watch video - 18:38)
+      int sz = 2 * (maxr - minr + maxc - minc);
+      int[] oneD = new int[sz];
+      
+      // left wall
+      int idx = 0;
+      for (int i = minr; i <= maxr; i++) {
+         oneD[idx] = arr[i][minc];
+         idx++;
+      }
 
-        int i = 0;
-        int rcur = rmin;
-        int ccur = cmin;
+      // bottom wall
+      for (int j = minc + 1; j <= maxc; j++) {
+         oneD[idx] = arr[maxr][j];
+         idx++;
+      }
 
-        while (rcur <= rmax) {
-            oned[i++] = a[rcur++][cmin];
-        }
-        ccur++;
-        rcur--;
-        while (ccur <= cmax) {
-            oned[i++] = a[rmax][ccur++];
-        }
-        rcur--;
-        ccur--;
-        while (rcur >= rmin) {
-            oned[i++] = a[rcur--][cmax];
-        }
-        ccur--;
-        rcur++;
-        while (ccur >= cmin + 1) {
-            oned[i++] = a[rmin][ccur--];
-        }
-        return oned;
-    }
+      // right wall
+      for (int i = maxr - 1; i >= minr; i--) {
+         oneD[idx] = arr[i][maxc];
+         idx++;
+      }
 
-    public static void oneDToShell(int[][] a, int s, int[] oned) {
-        int cmin = s - 1;
-        int rmin = s - 1;
-        int cmax = a[0].length - 1;
-        int rmax = a.length - 1;
+      // top wall
+      for (int j = maxc - 1; j >= minc + 1; j--) {
+         oneD[idx] = arr[minr][j];
+         idx++;
+      }
 
-        int i = 0;
-        int rcur = rmin;
-        int ccur = cmin;
+      return oneD;
+   }
 
-        while (rcur <= rmax) {
-            a[rcur++][cmin] = oned[i++];
-        }
-        ccur++;
-        rcur--;
-        while (ccur <= cmax) {
-            a[rmax][ccur++] = oned[i++];
-        }
-        rcur--;
-        ccur--;
-        while (rcur >= rmin) {
-            a[rcur--][cmax] = oned[i++];
-        }
-        ccur--;
-        rcur++;
-        while (ccur >= cmin + 1) {
-            a[rmin][ccur--] = oned[i++];
-        }
-    }
+   public static void fill2d(int[][] arr, int[] oneD, int s) {
+      int minr = s - 1;
+      int minc = s - 1;
+      int maxr = arr.length - s;
+      int maxc = arr[0].length - s;
 
-    public static void rotate(int[] a, int k) {
-        k %= a.length;
-        if (k < 0) {
-            k += a.length;
-        }
-        reverse(a, 0, a.length - k - 1);
-        reverse(a, a.length - k, a.length - 1);
-        reverse(a, 0, a.length - 1);
-    }
+      // left wall
+      int idx = 0;
+      for (int i = minr; i <= maxr; i++) {
+         arr[i][minc] = oneD[idx];
+         idx++;
+      }
 
-    public static void reverse(int[] a, int i, int j) {
-        for (; i < j; i++, j--) {
-            int temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
-    }
-    
-    public static void display(int[][] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr[0].length; j++) {
-                System.out.print(arr[i][j] + " ");
-            }
-            System.out.println();
-        }
-    }
+      // bottom wall
+      for (int j = minc + 1; j <= maxc; j++) {
+         arr[maxr][j] = oneD[idx];
+         idx++;
+      }
+
+      // right wall
+      for (int i = maxr - 1; i >= minr; i--) {
+         arr[i][maxc] = oneD[idx];
+         idx++;
+      }
+
+      // top wall
+      for (int j = maxc - 1; j >= minc + 1; j--) {
+         arr[minr][j] = oneD[idx];
+         idx++;
+      }
+   }
+
+   public static void rotate(int[] oneD, int r) {
+      r = r % oneD.length;
+      if (r < 0) {
+         r += oneD.length;
+      }
+
+      reverse(oneD, 0, oneD.length - 1 - r);
+      reverse(oneD, oneD.length - r, oneD.length - 1);
+      reverse(oneD, 0, oneD.length - 1);
+   }
+
+   public static void reverse(int[] arr, int i1, int i2) {
+      int li = i1;
+      int ri = i2;
+      while (li < ri) {
+         int temp = arr[li];
+         arr[li] = arr[ri];
+         arr[ri] = temp;
+
+         li++;
+         ri--;
+      }
+   }
+
+   public static void display(int[][] arr) {
+      for (int i = 0; i < arr.length; i++) {
+         for (int j = 0; j < arr[0].length; j++) {
+            System.out.print(arr[i][j] + " ");
+         }
+         System.out.println();
+      }
+   }
 
 }
