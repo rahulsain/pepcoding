@@ -6,20 +6,18 @@ public class Main {
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         String s = sc.next();
-        printPermutations(s,"");
+        printPermutations(s, "");
     }
 
-    public static void printPermutations(String str,String ans) {
-        if(str.length() == 0){
+    public static void printPermutations(String str, String ans) {
+        if (str.length() == 0) {
             System.out.println(ans);
             return;
-        }  
-        char ch = str.charAt(0);
-        String ros = str.substring(1);
-        for(int i = 0; i<str.length(); i++){
+        }
+        for (int i = 0; i < str.length(); i++) {
             char cht = str.charAt(i);
-            printPermutations(ros,ans+cht);
+            String ros = str.substring(0, i) + str.substring(i + 1);
+            printPermutations(ros, ans + cht);
         }
     }
-
 }
