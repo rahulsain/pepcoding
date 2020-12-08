@@ -7,73 +7,47 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int a[][] = new int[n][n];
-        printNQueens(a,"",n);
+        printNQueens(a, "", 0);
     }
-    
-    public static void printNQueens(int[][] chess, String qsf, int row) {
-        
-    }
-}
-bool isSafe(int** a,int r,int c,int n){
-    for(int i = 0; i<r; i++){
-        if(a[i][c] == 1){
-            return false;
-        }
-    }
-    int i = r;
-    int j = c;
-    while(i>=0 && j>= 0){
-        if(a[i][j] == 1){
-            return false;
-        }
-        i--;
-        j--;
-    }
-    i = r;
-    j = c;
-    while(i>=0 && j< n){
-        if(a[i][j] == 1){
-            return false;
-        }
-        i--;
-        j++;
-    }
-    return true;
-}
 
-bool nQueen(int** a,int r,int n){
-    if(r >= n){
+    public static void printNQueens(int[][] chess, String qsf, int row) {
+        if (row >= chess.length) {
+            System.out.println(qsf + ".");
+            return;
+        }
+        for (int c = 0; c < chess.length; c++) {
+            if (chess[row][c] == 0 && isSafe(chess, row, c) == true) {
+                chess[row][c] = 1;
+                printNQueens(chess, qsf + row + "-" + c + ", ", row + 1);
+                chess[row][c] = 0; //backtracking
+            }
+        }
+    }
+
+    public static boolean isSafe(int a[][], int r, int c) {
+        int i = r - 1;
+        int j = c - 1;
+        while (i >= 0 && j >= 0) {
+            if (a[i][j] == 1) {
+                return false;
+            }
+            i--;
+            j--;
+        }
+        for (i = r - 1, j = c; i >= 0; i--) {
+            if (a[i][j] == 1) {
+                return false;
+            }
+        }
+        i = r - 1;
+        j = c + 1;
+        while (i >= 0 && j < a.length) {
+            if (a[i][j] == 1) {
+                return false;
+            }
+            i--;
+            j++;
+        }
         return true;
     }
-    for(int c = 0; c<n; c++){
-        if(isSafe(a,r,c,n)){
-            a[r][c] = 1;
-
-            if(nQueen(a,r + 1,n)){
-                return true;
-            }
-            a[r][c] = 0; //backtracking
-        }
-    }
-    return false;
-}
-
-int main(){
-    int n; cin>>n;
-    int ** a = new int*[n];        
-    for(int i = 0; i<n; i++){
-        a[i] = new int[n];
-        for(int j = 0; j<n; j++){
-            a[i][j] = 0;
-        }
-    }
-    if(nQueen(a,0,n)){
-       for(int i = 0; i<n; i++){
-        for(int j = 0; j<n; j++){
-            cout<<a[i][j]<<" ";
-            }
-        cout<<endl;
-        } 
-    }
-    return 0;
 }
