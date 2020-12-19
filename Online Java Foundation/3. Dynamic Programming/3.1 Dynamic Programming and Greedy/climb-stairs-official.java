@@ -8,7 +8,7 @@ public class Main {
         int n = sc.nextInt();
         System.out.println(countPathsTab(n));
     }
-
+    //memorization
     public static int countPaths(int n, int i, int qb[]) {
         if (i == n) {
             return 1;
@@ -20,7 +20,7 @@ public class Main {
         qb[i] = countPaths(n, i + 1, qb) + countPaths(n, i + 2, qb) + countPaths(n, i + 3, qb);
         return qb[i];
     }
-
+    //tabularization
     public static int countPathsTab(int n) {
         int dp[] = new int[n + 1];
         dp[0] = 1;
