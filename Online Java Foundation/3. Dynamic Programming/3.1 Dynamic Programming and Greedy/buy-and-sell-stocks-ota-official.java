@@ -12,29 +12,40 @@ public class Main {
       a[i] = sc.nextInt();
     }
 
-    int[] dp = new int[n];
+    int lsr = a[0], p = a[0], max = Integer.MIN_VALUE;
 
-    int s = a[0], b = a[0], max = Integer.MIN_VALUE;
-    dp[0] = a[0];
 
-    for (int i = 1; i < n; i++) {
-      int cs = s, cb = b;
-
-      if (cb > a[i]) {
-        cb = a[i];
-        cs = a[i];
-      } else if (cs < a[i]) {
-        cs = a[i];
-      }
-
-      s = cs;
-      b = cb;
-
-      max = Math.max(s - b, max);
+    for (int i = 0; i < n; i++) {
+      lsr = Math.min(lsr,a[i]);
+      p = a[i] - lsr;
+      
+      max = Math.max(max,p);
 
     }
 
     System.out.println(max);
+
+    // int s = a[0], b = a[0], max = Integer.MIN_VALUE;
+
+
+    // for (int i = 1; i < n; i++) {
+    //   int cs = s, cb = b;
+
+    //   if (cb > a[i]) {
+    //     cb = a[i];
+    //     cs = a[i];
+    //   } else if (cs < a[i]) {
+    //     cs = a[i];
+    //   }
+
+    //   s = cs;
+    //   b = cb;
+
+    //   max = Math.max(s - b, max);
+
+    // }
+
+    // System.out.println(max);
 
   }
 
