@@ -12,12 +12,9 @@ public class Main {
       a[i] = sc.nextInt();
     }
     
- 
+ //least buy point
    int lsr = a[0], pl = 0, max = Integer.MIN_VALUE;
     int dpol[] = new int[n];
-    
-       int msr = a[n-1], pm = 0;
-    int dpom[] = new int[n];
 
     for (int i = 1; i < n; i++) {
       lsr = Math.min(lsr,a[i]);
@@ -26,6 +23,9 @@ public class Main {
       dpol[i] = Math.max(dpol[i-1],pl);
 
     }
+//most sell point
+    int msr = a[n-1], pm = 0;
+    int dpom[] = new int[n];
     
     for (int i = n-2; i > -1; i--) {
       msr = Math.max(msr,a[i]);
@@ -34,7 +34,7 @@ public class Main {
       dpom[i] = Math.max(dpom[i+1],pm);
 
     }
-    
+    //max of both above
     for (int i = 0; i < n; i++) {
       max = Math.max(max,dpom[i]+dpol[i]);
     }
